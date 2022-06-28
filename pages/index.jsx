@@ -3,11 +3,11 @@ import { useState } from 'react'
 const Home = () => {
   const [wallet, setWalletAddress] = useState("");
   const [collection, setCollectionAddress] = useState("");
+  const [NFTs, setNFTs] = useState([])
+  const [fetchForCollection, setFetchForCollection]=useState(false)
 
   const fetchNFTs = async() => {
     let nfts;
-    console.log("fetching nfts");
-    //const api_key = "1111"
     const baseURL = `https://eth-mainnet.alchemyapi.io/v2/JQeltNWY1_85Hn9a6ZwR4u4uE6R-SKbd/getNFTs/`;
     var requestOptions = {
         method: 'GET'
@@ -18,7 +18,6 @@ const Home = () => {
       const fetchURL = `${baseURL}?owner=${wallet}`;
       console.log(fetchURL);
       nfts = await fetch(fetchURL, requestOptions).then(data => data.json())
-      console.log("fetching nfts3");
     } else {
       console.log("fetching nfts for collection owned by address")
       const fetchURL = `${baseURL}?owner=${wallet}&contractAddresses%5B%5D=${collection}`;
@@ -40,7 +39,10 @@ const Home = () => {
         <label className="text-gray-600 "><input type={"checkbox"} className="mr-2"></input>Fetch for collection</label>
         <button className={"disabled:bg-slate-500 text-white bg-blue-400 px-4 py-2 mt-3 rounded-sm w-1/5"} onClick={
           () => {
-             fetchNFTs()
+              if (fetchForCollection) {
+                   fetchNFTsForCollection()
+              }
+              else fetchNFTs()
           }
         }>Let's go! </button>
       </div>
