@@ -1,4 +1,10 @@
+import { DocumentDuplicateIcon } from "@heroicons/react/solid";
+
 export const NFTCard = ({ nft }) => {
+
+   const copyAddressToClipboard = () => {
+     navigator.clipboard.writeText(nft.contract.address);
+    };
 
     return (
         <div className="w-1/4 flex flex-col ">
@@ -9,7 +15,12 @@ export const NFTCard = ({ nft }) => {
             <div className="">
                 <h2 className="text-xl text-gray-800">{nft.title}</h2>
                 <p className="text-gray-600">Id: {nft.id.tokenId.substr(nft.id.tokenId.length - 4)}</p>
-                <p className="text-gray-600" >{`${nft.contract.address.substr(0, 4)}...${nft.contract.address.substr(nft.contract.address.length - 4)}`}</p>
+                <p className="text-gray-600 flex items-center" >{`${nft.contract.address.substr(0, 4)}...${nft.contract.address.substr(nft.contract.address.length - 4)}`}{" "}
+                       <DocumentDuplicateIcon
+                          className="h-4 pl-1 cursor-pointer"
+                          onClick={copyAddressToClipboard}
+                            />
+                </p>
             </div>
 
             <div className="flex-grow mt-2">
